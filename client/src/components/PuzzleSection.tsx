@@ -1,5 +1,5 @@
 /* Puzzle Section - Romantic Ethereal Design
- * Interactive drag-and-drop puzzle game
+ * Interactive drag-and-drop puzzle game with mobile touch support
  */
 
 import { useEffect, useRef, useState } from "react";
@@ -18,12 +18,22 @@ const PUZZLE_PIECES = [
   "https://files.manuscdn.com/user_upload_by_module/session_file/310519663331240361/TBDbYCNTOfefUKEz.jpg",
 ];
 
+interface PiecePosition {
+  index: number;
+  x: number;
+  y: number;
+}
+
 export default function PuzzleSection() {
   const [visible, setVisible] = useState(false);
   const [pieces, setPieces] = useState<number[]>([]);
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   const [completed, setCompleted] = useState(false);
+  const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(
+    null
+  );
   const sectionRef = useRef<HTMLElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -81,13 +91,53 @@ export default function PuzzleSection() {
     }
   };
 
+  // Mobile touch support
+  const handleTouchStart = (index: number) => {
+    setDraggedIndex(index);
+  };
+
+  const handleTouchEnd = () => {
+    setDraggedIndex(null);
+  };
+
+  const swapPieces = (index1: number, index2: number) => {
+    const newPieces = [...pieces];
+    [newPieces[index1], newPieces[index2]] = [
+      newPieces[index2],
+      newPieces[index1],
+    ];
+    setPieces(newPieces);
+
+    // Check if puzzle is complete
+    const isComplete = newPieces.every((piece, index) => piece === index);
+    if (isComplete && !completed) {
+      setCompleted(true);
+      toast.success("Perfect! You completed the puzzle! 🎉");
+      setTimeout(() => {
+        document.getElementById("quiz")?.scrollIntoView({ behavior: "smooth" });
+      }, 2000);
+    }
+  };
+
+  const handlePieceClick = (index: number) => {
+    // For mobile: tap to swap with adjacent pieces
+    if (draggedIndex === null) {
+      setDraggedIndex(index);
+    } else if (draggedIndex !== index) {
+      swapPieces(draggedIndex, index);
+      setDraggedIndex(null);
+    } else {
+      setDraggedIndex(null);
+    }
+  };
+
   return (
     <section
       id="puzzle"
       ref={sectionRef}
       className="min-h-screen flex items-center justify-center px-4 py-20 bg-gradient-to-b from-rose-50/30 to-pink-50/50"
     >
-      <div className="max-w-3xl text-center">
+      <div className="max-w-3xl text-center w-full">
         <h2
           className={`text-4xl md:text-5xl mb-6 transition-all duration-1200 ${
             visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
@@ -97,14 +147,18 @@ export default function PuzzleSection() {
           Our Special Puzzle 🧩
         </h2>
         <p
-          className={`text-lg md:text-xl mb-12 transition-all duration-1200 delay-300 ${
+          className={`text-lg md:text-xl mb-8 transition-all duration-1200 delay-300 ${
             visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
           }`}
           style={{ color: "#5A3A47" }}
         >
-          Drag the pieces to complete the image of our love.
+          <span className="block mb-2">Drag the pieces to complete the image.</span>
+          <span className="text-sm md:text-base">
+            (On mobile: tap a piece, then tap another to swap)
+          </span>
         </p>
         <div
+          ref={gridRef}
           className={`grid grid-cols-3 gap-2 max-w-md mx-auto transition-all duration-1200 delay-600 ${
             visible ? "opacity-100 scale-100" : "opacity-0 scale-95"
           }`}
@@ -116,15 +170,21 @@ export default function PuzzleSection() {
               onDragStart={() => handleDragStart(index)}
               onDragOver={handleDragOver}
               onDrop={() => handleDrop(index)}
-              className="aspect-square cursor-move hover:scale-105 transition-transform duration-300 rounded-lg overflow-hidden shadow-lg hover:shadow-xl"
+              onTouchStart={() => handleTouchStart(index)}
+              onTouchEnd={handleTouchEnd}
+              onClick={() => handlePieceClick(index)}
+              className={`aspect-square cursor-move hover:scale-105 transition-all duration-300 rounded-lg overflow-hidden shadow-lg hover:shadow-xl select-none ${
+                draggedIndex === index ? "ring-4 ring-pink-400 scale-110" : ""
+              }`}
               style={{
-                opacity: draggedIndex === index ? 0.5 : 1,
+                opacity: draggedIndex === index ? 0.7 : 1,
+                touchAction: "none",
               }}
             >
               <img
                 src={PUZZLE_PIECES[pieceIndex]}
                 alt={`Puzzle piece ${pieceIndex + 1}`}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover pointer-events-none"
                 draggable={false}
               />
             </div>

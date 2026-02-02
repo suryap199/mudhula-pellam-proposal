@@ -12,6 +12,7 @@ import QuizSection from "@/components/QuizSection";
 import MemoriesSection from "@/components/MemoriesSection";
 import FinalSection from "@/components/FinalSection";
 import FloatingHearts from "@/components/FloatingHearts";
+import ScrollIndicator from "@/components/ScrollIndicator";
 
 export default function Home() {
   const [musicPlaying, setMusicPlaying] = useState(false);
@@ -36,6 +37,7 @@ export default function Home() {
       </audio>
 
       <FloatingHearts />
+      <ScrollIndicator targetId="note1" />
       
       <IntroSection onStart={startExperience} />
       <NoteSection />

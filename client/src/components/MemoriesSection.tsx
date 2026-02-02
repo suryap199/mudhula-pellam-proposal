@@ -1,5 +1,6 @@
 /* Memories Section - Romantic Ethereal Design
- * Photo carousel using Embla Carousel
+ * Photo carousel using Embla Carousel with touch support
+ * User's real photos integrated
  */
 
 import { useEffect, useRef, useState } from "react";
@@ -7,10 +8,12 @@ import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+// User's real memory photos from CDN
 const MEMORY_IMAGES = [
-  "https://files.manuscdn.com/user_upload_by_module/session_file/310519663331240361/sYgsHjyNVBXeBofC.jpg",
-  "https://files.manuscdn.com/user_upload_by_module/session_file/310519663331240361/FCNUUPMplHUnvZBq.jpg",
-  "https://files.manuscdn.com/user_upload_by_module/session_file/310519663331240361/cQcNCcofdaEYvjOr.jpg",
+  "https://files.manuscdn.com/user_upload_by_module/session_file/310519663331240361/KvJQlKNsKmzNceNB.jpeg",
+  "https://files.manuscdn.com/user_upload_by_module/session_file/310519663331240361/XpdauhpESCyDCnDb.jpeg",
+  "https://files.manuscdn.com/user_upload_by_module/session_file/310519663331240361/pxrDdIUNxuAwLbVQ.jpeg",
+  "https://files.manuscdn.com/user_upload_by_module/session_file/310519663331240361/mTLILeKzcVqDrVvR.jpeg",
 ];
 
 export default function MemoriesSection() {
@@ -68,7 +71,7 @@ export default function MemoriesSection() {
                   <img
                     src={src}
                     alt={`Memory ${index + 1}`}
-                    className="w-full h-[500px] object-cover"
+                    className="w-full h-[400px] md:h-[500px] object-cover"
                   />
                 </div>
               ))}
@@ -80,17 +83,17 @@ export default function MemoriesSection() {
             onClick={scrollPrev}
             variant="outline"
             size="icon"
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full w-12 h-12 shadow-lg"
+            className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full w-10 h-10 md:w-12 md:h-12 shadow-lg z-10"
           >
-            <ChevronLeft className="w-6 h-6" />
+            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
           </Button>
           <Button
             onClick={scrollNext}
             variant="outline"
             size="icon"
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full w-12 h-12 shadow-lg"
+            className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white rounded-full w-10 h-10 md:w-12 md:h-12 shadow-lg z-10"
           >
-            <ChevronRight className="w-6 h-6" />
+            <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
           </Button>
         </div>
 
