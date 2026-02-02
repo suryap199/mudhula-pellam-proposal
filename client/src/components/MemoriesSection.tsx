@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button";
 // User's real memory photos from CDN
 const MEMORY_IMAGES = [
   "https://files.manuscdn.com/user_upload_by_module/session_file/310519663331240361/KvJQlKNsKmzNceNB.jpeg",
-  "https://files.manuscdn.com/user_upload_by_module/session_file/310519663331240361/XpdauhpESCyDCnDb.jpeg",
   "https://files.manuscdn.com/user_upload_by_module/session_file/310519663331240361/pxrDdIUNxuAwLbVQ.jpeg",
   "https://files.manuscdn.com/user_upload_by_module/session_file/310519663331240361/mTLILeKzcVqDrVvR.jpeg",
 ];
