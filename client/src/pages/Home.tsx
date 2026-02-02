@@ -1,25 +1,49 @@
-import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import { Streamdown } from 'streamdown';
-
-/**
- * All content in this page are only for example, replace with your own feature implementation
- * When building pages, remember your instructions in Frontend Best Practices, Design Guide and Common Pitfalls
+/* Romantic Ethereal Design
+ * Soft watercolor aesthetics with flowing sections
+ * Gentle animations and delicate interactions
  */
+
+import { useEffect, useRef, useState } from "react";
+import IntroSection from "@/components/IntroSection";
+import NoteSection from "@/components/NoteSection";
+import GameSection from "@/components/GameSection";
+import PuzzleSection from "@/components/PuzzleSection";
+import QuizSection from "@/components/QuizSection";
+import MemoriesSection from "@/components/MemoriesSection";
+import FinalSection from "@/components/FinalSection";
+import FloatingHearts from "@/components/FloatingHearts";
+
 export default function Home() {
-  // If theme is switchable in App.tsx, we can implement theme toggling like this:
-  // const { theme, toggleTheme } = useTheme();
+  const [musicPlaying, setMusicPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const startExperience = () => {
+    if (audioRef.current) {
+      audioRef.current.play().catch(() => {
+        // Autoplay might be blocked, that's okay
+      });
+      setMusicPlaying(true);
+    }
+    // Scroll to next section
+    document.getElementById("note1")?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <main>
-        {/* Example: lucide-react for icons */}
-        <Loader2 className="animate-spin" />
-        Example Page
-        {/* Example: Streamdown for markdown rendering */}
-        <Streamdown>Any **markdown** content</Streamdown>
-        <Button variant="default">Example Button</Button>
-      </main>
+    <div className="min-h-screen relative overflow-x-hidden">
+      {/* Background music - optional, will be silent if no audio file */}
+      <audio ref={audioRef} loop>
+        {/* No audio source - removed to avoid errors */}
+      </audio>
+
+      <FloatingHearts />
+      
+      <IntroSection onStart={startExperience} />
+      <NoteSection />
+      <GameSection />
+      <PuzzleSection />
+      <QuizSection />
+      <MemoriesSection />
+      <FinalSection />
     </div>
   );
 }
