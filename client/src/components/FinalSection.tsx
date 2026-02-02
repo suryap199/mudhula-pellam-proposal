@@ -101,7 +101,7 @@ export default function FinalSection() {
             }`}
             style={{ color: "#D97398" }}
           >
-            Will you marry me? 💍
+            Will you be my valentine? 💕
           </h2>
 
           {!answered ? (
@@ -115,17 +115,17 @@ export default function FinalSection() {
                 size="lg"
                 className="bg-gradient-to-r from-pink-400 to-rose-400 hover:from-pink-500 hover:to-rose-500 text-white px-12 py-8 text-2xl rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-110"
               >
-                Yes! Forever! ❤️
+                Yes! 💕
               </Button>
             </div>
           ) : (
             <div className="animate-fade-in">
               <p className="text-3xl accent-text mb-6" style={{ color: "#D97398" }}>
-                I love you so much! 💕
+                You make me the happiest! 💕
               </p>
               <p className="text-xl" style={{ color: "#5A3A47" }}>
-                You've just made all my dreams come true. Here's to our forever
-                together! 🥂
+                Thank you for being my valentine. Here's to more beautiful moments
+                together! 🌹
               </p>
             </div>
           )}
